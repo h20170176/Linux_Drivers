@@ -1,0 +1,52 @@
+#include<linux/kernel.h>
+#include<linux/module.h>
+#include<linux/types.h>
+#include<asm/io.h>
+#include<linux/ioport.h>
+
+#define RTC_INDEX 0x70
+#define RTC_DATA 0x71
+
+__init int my_module_init(void)
+{
+	printk(KERN_INFO "Inside function %s of file %s \n",__FUNCTION__,__FILE__);
+
+	if(request_region(RTC_INDEX,2,"RTC_INFO")==NULL)
+	{
+		printk(KERN_ERR "Unable to reserve the selected ports as other devices are \n already using the same ports\n");
+	        return -1;
+	}
+
+	else
+		printk(KERN_INFO "Port 0x70 nad 0x71 are successfully reserverd\n");
+
+	outb(0x00,RTC_INDEX);
+	printk(KERN_INFO "SECOND : %d\n",inb(RTC_DATA));
+	outb(0x02,RTC_INDEX);
+	printk(KERN_INFO "MINUTE : %d\n",inb(RTC_DATA));
+	outb(0x04,RTC_INDEX);
+	printk(KERN_INFO "HOUR : %d\n",inb(RTC_DATA));
+	outb(0x06,RTC_INDEX);
+	printk(KERN_INFO "WEEK : %d\n",inb(RTC_DATA));
+	outb(0x07,RTC_INDEX);
+	printk(KERN_INFO "DAY : %d\n",inb(RTC_DATA));
+	outb(0x08,RTC_INDEX);
+	printk(KERN_INFO "MONTH : %d\n",inb(RTC_DATA));
+	outb(0x09,RTC_INDEX);
+	printk(KERN_INFO "YEAR : %d\n",inb(RTC_DATA));
+	return 0;
+}
+
+__exit void my_module_exit(void)
+{
+	printk(KERN_INFO "Inside function %s of file %s \n",__FUNCTION__,__FILE__);
+	release_region(RTC_INDEX,2);
+	printk(KERN_INFO "Port 0x70 nad 0x71 are successfully released\n");
+}
+
+module_init(my_module_init);
+module_exit(my_module_exit);
+
+MODULE_AUTHOR("SASANK");
+MODULE_DESCRIPTION("KERNEL IO OPERATION USING RTC");
+MODULE_LICENSE("GPL");

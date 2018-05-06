@@ -1,0 +1,1 @@
+cmd_/home/sasanka/Desktop/DD_experiments/Link_list_with_function/exp_adv.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/sasanka/Desktop/DD_experiments/Link_list_with_function/exp_adv.ko /home/sasanka/Desktop/DD_experiments/Link_list_with_function/exp_adv.o /home/sasanka/Desktop/DD_experiments/Link_list_with_function/exp_adv.mod.o ;  true
